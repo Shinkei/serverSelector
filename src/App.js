@@ -1,16 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {createUseStyles} from 'react-jss';
-
-const useStyles = createUseStyles({
-body:{
-  backgroundColor: 'gold'
-}
-})
+import Dashboard from './components/Dashboard'
 
 const App = () => {
-  const classes = useStyles()
-  return <div className={classes.body}>Aiven server selector</div>;
+  return <div><Dashboard/></div>;
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));
