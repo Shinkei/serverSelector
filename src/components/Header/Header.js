@@ -6,7 +6,6 @@ const useStyles = createUseStyles({
   header: {
     backgroundColor: 'white',
     height: 70,
-    width: '100%',
     boxShadow: 'rgba(8, 35, 48, 0.24) 0px 2px 4px',
     padding: '0px 16px',
     display: 'flex',
