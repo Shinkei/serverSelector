@@ -20,7 +20,7 @@ const REGION_COORDINATES = [
   { 'south america': { coordinates: { latitude: -21.00, longitude: -61.00}, zoom: 3} }
 ];
 
-const Map = () => {
+const Map = ({marks}) => {
   const classes = useStyles();
   const [latitude, ] = useState(-21.00);
   const [longitude, ] = useState(-61.00);
@@ -36,7 +36,11 @@ const Map = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[26.07, 50.55]} />
+      {Array.isArray(marks) && marks.map((mark, index) => {
+        return (
+          <Marker key={index} position={[mark.latitude, mark.longitude]} />
+        )
+      })}
     </MapContainer>
   );
 };

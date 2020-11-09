@@ -9,7 +9,8 @@ const useStyles = createUseStyles({
     padding: 12,
     display: 'grid',
     gridGap: 12,
-    gridTemplateRows: 'repeat(auto-fill, minmax(50px, 1fr))'
+    gridTemplateRows: 'repeat(auto-fill, minmax(50px, 1fr))',
+    overflowY: 'auto'
   }
 })
 
