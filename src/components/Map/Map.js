@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
 import { createUseStyles } from "react-jss";
+import {Icon} from 'leaflet'
 
 const useStyles = createUseStyles({
   root: {
@@ -20,19 +21,28 @@ const RegionSelector = ({ coordinates }) => {
 
 const Map = ({ marks, region }) => {
   const classes = useStyles();
-  const [coordinates, setCoordinates] = useState({ lat: 0, lon: 0, zoom: 1 });
+  const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0, zoom: 1 });
 
   useEffect(() => {
     setCoordinates({
       lat: region.latitude,
-      lon: region.longitude,
+      lng: region.longitude,
       zoom: region.zoom
     });
   }, [region]);
 
+const normalIcon = new Icon({
+  iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF',
+  iconSize: [21, 34]
+})
+const selectedIcon = new Icon({
+  iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000&chf=a,s,ee00FFFF',
+  iconSize: [21, 34]
+})
+
   return (
     <MapContainer
-      center={[0, 0]}
+      center={[coordinates.lat, coordinates.lng]}
       zoom={coordinates.zoom}
       scrollWheelZoom={false}
       className={classes.root}
@@ -44,7 +54,9 @@ const Map = ({ marks, region }) => {
       {Array.isArray(marks) &&
         marks.map((mark, index) => {
           return (
-            <Marker key={index} position={[mark.latitude, mark.longitude]} />
+            <Marker key={index} position={[mark.latitude, mark.longitude]} icon={mark.selected ? selectedIcon : normalIcon}>
+              <Popup>{mark.name}</Popup>
+            </Marker>
           );
         })}
       <RegionSelector coordinates={coordinates} />

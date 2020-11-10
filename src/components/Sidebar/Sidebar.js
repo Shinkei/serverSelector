@@ -14,13 +14,13 @@ const useStyles = createUseStyles({
   }
 })
 
-const Sidebar = ({options, className}) => {
+const Sidebar = ({options, className, onOptionClick}) => {
   const classes = useStyles()
   return (
     <div className={classNames(classes.root, className)}>
       {options.map(option =>{
         return (
-          <Card key={options.key} name={option.name} />
+          <Card key={options.key} name={option.name} onClick={onOptionClick}/>
         )
       })}
     </div>

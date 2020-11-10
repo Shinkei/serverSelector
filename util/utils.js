@@ -48,8 +48,8 @@ const REGION_COORDINATES = [
   },
   {
     name: "north america",
-    latitude: 38.2,
-    longitude: -99.44,
+    latitude: 48,
+    longitude: -108,
     zoom: 3.5
   },
   {
@@ -79,4 +79,8 @@ const getClosesRegion = userLocation => {
   return closestRegion;
 };
 
-export { getClosesRegion };
+const getRegionByName = name => {
+  return REGION_COORDINATES.find(region => region.name === name)
+}
+
+export { getClosesRegion, getRegionByName };
