@@ -10,6 +10,9 @@ const useStyles = createUseStyles({
   }
 });
 
+/**
+ * This is a component needed for the map to use some events to move the location
+ */
 const RegionSelector = ({ coordinates }) => {
   const map = useMap();
   map.flyTo(
@@ -19,7 +22,7 @@ const RegionSelector = ({ coordinates }) => {
   return null;
 };
 
-const Map = ({ marks, region }) => {
+const Map = ({ markers, region }) => {
   const classes = useStyles();
   const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0, zoom: 1 });
 
@@ -31,14 +34,14 @@ const Map = ({ marks, region }) => {
     });
   }, [region]);
 
-const normalIcon = new Icon({
-  iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF',
-  iconSize: [21, 34]
-})
-const selectedIcon = new Icon({
-  iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000&chf=a,s,ee00FFFF',
-  iconSize: [21, 34]
-})
+  const normalIcon = new Icon({
+    iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF',
+    iconSize: [21, 34]
+  })
+  const selectedIcon = new Icon({
+    iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000&chf=a,s,ee00FFFF',
+    iconSize: [21, 34]
+  })
 
   return (
     <MapContainer
@@ -51,8 +54,8 @@ const selectedIcon = new Icon({
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {Array.isArray(marks) &&
-        marks.map((mark, index) => {
+      {Array.isArray(markers) &&
+        markers.map((mark, index) => {
           return (
             <Marker key={index} position={[mark.latitude, mark.longitude]} icon={mark.selected ? selectedIcon : normalIcon}>
               <Popup>{mark.name}</Popup>

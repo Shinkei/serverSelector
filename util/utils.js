@@ -1,14 +1,24 @@
-const distanceBetweenPoitns = (lat1, lon1, lat2, lon2) => {
+/**
+ * Calcilates the distance between 2 geo points
+ * @param {number} lat1 - latitude of point 1
+ * @param {number} lng1 - longitude of points 1
+ * @param {number} lat2 - latitude of point 2
+ * @param {number} lng2 - longitude of point 2
+ */
+const distanceBetweenPoitns = (lat1, lng1, lat2, lng2) => {
   var p = Math.PI / 180;
   var c = Math.cos;
   var a =
     0.5 -
     c((lat2 - lat1) * p) / 2 +
-    (c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))) / 2;
+    (c(lat1 * p) * c(lat2 * p) * (1 - c((lng2 - lng1) * p))) / 2;
 
   return 12742 * Math.asin(Math.sqrt(a));
 };
 
+/**
+ * This are the coordinates of each region and the zoom to apply in the leaflet map
+ */
 const REGION_COORDINATES = [
   {
     name: "europe",
@@ -60,6 +70,10 @@ const REGION_COORDINATES = [
   }
 ];
 
+/**
+ * Calculate which region is the closest to the user location
+ * @param {Object} userLocation - user latitude and longitude
+ */
 const getClosesRegion = userLocation => {
   const regionWithDistances = REGION_COORDINATES.map(region => {
     const distance = distanceBetweenPoitns(
@@ -79,6 +93,10 @@ const getClosesRegion = userLocation => {
   return closestRegion;
 };
 
+/**
+ * return the region object using the region name
+ * @param {string} name - region name
+ */
 const getRegionByName = name => {
   return REGION_COORDINATES.find(region => region.name === name)
 }
