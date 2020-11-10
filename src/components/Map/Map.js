@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import React, { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
@@ -9,26 +9,31 @@ const useStyles = createUseStyles({
   }
 });
 
-const REGION_COORDINATES = [
-  { 'europe': { coordinates: { latitude: 51, longitude: 10 }, zoom: 3.5 } },
-  { 'africa': { coordinates: { latitude: 11.50, longitude: 17.75 }, zoom: 3} },
-  { 'south asia': { coordinates: { latitude: 22.96, longitude: 86.05 }, zoom: 3} },
-  { 'southeast asia': { coordinates: { latitude: 6.21, longitude: 106.85 }, zoom: 3} },
-  { 'east asia': { coordinates: { latitude: 24.59, longitude: 126.83}, zoom: 3} },
-  { 'australia': { coordinates: { latitude: -24.77, longitude: 134.75}, zoom: 3.5} },
-  { 'north america': { coordinates: { latitude: 38.20, longitude: -99.44}, zoom: 3.5} },
-  { 'south america': { coordinates: { latitude: -21.00, longitude: -61.00}, zoom: 3} }
-];
+const RegionSelector = ({ coordinates }) => {
+  const map = useMap();
+  map.flyTo(
+    { lat: coordinates.lat || 0, lng: coordinates.lng || 0 },
+    coordinates.zoom || 1
+  );
+  return null;
+};
 
-const Map = ({marks}) => {
+const Map = ({ marks, region }) => {
   const classes = useStyles();
-  const [latitude, ] = useState(-21.00);
-  const [longitude, ] = useState(-61.00);
+  const [coordinates, setCoordinates] = useState({ lat: 0, lon: 0, zoom: 1 });
+
+  useEffect(() => {
+    setCoordinates({
+      lat: region.latitude,
+      lon: region.longitude,
+      zoom: region.zoom
+    });
+  }, [region]);
 
   return (
     <MapContainer
-      center={[latitude, longitude]}
-      zoom={3.5}
+      center={[0, 0]}
+      zoom={coordinates.zoom}
       scrollWheelZoom={false}
       className={classes.root}
     >
@@ -36,11 +41,13 @@ const Map = ({marks}) => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {Array.isArray(marks) && marks.map((mark, index) => {
-        return (
-          <Marker key={index} position={[mark.latitude, mark.longitude]} />
-        )
-      })}
+      {Array.isArray(marks) &&
+        marks.map((mark, index) => {
+          return (
+            <Marker key={index} position={[mark.latitude, mark.longitude]} />
+          );
+        })}
+      <RegionSelector coordinates={coordinates} />
     </MapContainer>
   );
 };

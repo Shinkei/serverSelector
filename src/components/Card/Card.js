@@ -15,9 +15,9 @@ const useStyles = createUseStyles({
 const Card = ({name}) => {
   const classes = useStyles()
   return (
-    <div className={classes.root}>
+    <button className={classes.root}>
       <p>{name}</p>
-    </div>
+    </button>
   )
 }
 

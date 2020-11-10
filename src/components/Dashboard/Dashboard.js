@@ -4,6 +4,7 @@ import { createUseStyles } from "react-jss";
 import Sidebar from "../Sidebar";
 import Map from "../Map";
 import { getServers, getRegions } from "../../services";
+import { getClosesRegion } from "../../../util/utils";
 
 const useStyles = createUseStyles({
   root: {
@@ -24,10 +25,7 @@ const useStyles = createUseStyles({
 const Dashboard = () => {
   const classes = useStyles();
 
-  const [userLocation, setUserLocation] = useState({
-    latitude: 0,
-    longitude: 0
-  });
+  const [userRegion, setUserRegion] = useState(null);
   const [regions, setRegions] = useState([]);
   const [servers, setServers] = useState([]);
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -40,10 +38,11 @@ const Dashboard = () => {
 
     navigator.geolocation.getCurrentPosition(location => {
       const { coords } = location;
-      setUserLocation({
+      const closestRegion = getClosesRegion({
         latitude: coords.latitude,
         longitude: coords.longitude
-      });
+      })
+      setUserRegion(closestRegion);
     });
 
     fetchData();
@@ -63,7 +62,6 @@ const Dashboard = () => {
     longitude: server.geo_longitude
   }));
 
-
   return (
     <div className={classes.root}>
       <Header />
@@ -82,7 +80,9 @@ const Dashboard = () => {
           }))}
           className={classes.leftSidebar}
         />
-        <Map marks={marks || []} />
+        <div className={classes.leftSidebar}>
+          <Map region={userRegion || {}} marks={marks || []} />
+        </div>
       </div>
     </div>
   );
