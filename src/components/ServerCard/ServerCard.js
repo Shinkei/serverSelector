@@ -27,7 +27,6 @@ const useStyles = createUseStyles({
   },
   nameContainer: {
     display: "flex",
-    flexWrap: "wrap",
     alignItems: "center"
   },
   company: {
@@ -67,7 +66,6 @@ const ServerCard = ({ name, selected, onClick }) => {
     >
       <div className={classes.nameContainer}>
         <img src={logo} alt="serverLogo" className={classes.logo}></img>
-        {/* <h5 className={classes.company}>{parts.shift().toUpperCase()}</h5> */}
         <p className={classes.name}>{parts.join(" ")}</p>
       </div>
     </button>
