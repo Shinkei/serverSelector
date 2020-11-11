@@ -1,3 +1,5 @@
+import React from "react";
+
 /**
  * Calcilates the distance between 2 geo points
  * @param {number} lat1 - latitude of point 1
@@ -58,8 +60,8 @@ const REGION_COORDINATES = [
   },
   {
     name: "north america",
-    latitude: 48,
-    longitude: -108,
+    latitude: 40,
+    longitude: -96,
     zoom: 3.5
   },
   {
@@ -98,7 +100,7 @@ const getClosesRegion = userLocation => {
  * @param {string} name - region name
  */
 const getRegionByName = name => {
-  return REGION_COORDINATES.find(region => region.name === name)
-}
+  return REGION_COORDINATES.find(region => region.name === name);
+};
 
 export { getClosesRegion, getRegionByName };

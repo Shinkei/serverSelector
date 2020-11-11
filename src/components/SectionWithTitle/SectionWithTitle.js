@@ -1,7 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
 import classNames from "classnames";
-import Card from "../Card";
 
 const useStyles = createUseStyles({
   root: {
@@ -14,7 +13,7 @@ const useStyles = createUseStyles({
   },
   title: {
     color: "#FFFFFF",
-    backgroundColor: "#F38361",
+    backgroundColor: "#5E5E5E",
     textAlign: "center",
     fontFamily: "ubuntu",
     margin: 0,
@@ -25,18 +24,14 @@ const useStyles = createUseStyles({
   }
 });
 
-const Sidebar = ({ title, options, className, onOptionClick }) => {
+const SectionWithTitle = ({ title, className, children }) => {
   const classes = useStyles();
   return (
     <div className={classNames(classes.root, className)}>
-      <h2 className={classes.title}>{title}</h2>
-      {options.map(option => {
-        return (
-          <Card key={options.key} name={option.name} onClick={onOptionClick} />
-        );
-      })}
+      <h4 className={classes.title}>{title}</h4>
+      {children}
     </div>
   );
 };
 
-export default Sidebar;
+export default SectionWithTitle;

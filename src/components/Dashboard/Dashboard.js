@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Header";
 import { createUseStyles } from "react-jss";
-import Sidebar from "../Sidebar";
+import SectionWithTitle from "../SectionWithTitle";
 import Map from "../Map";
+import Card from "../Card";
+import ServerCard from "../ServerCard";
 import { getServers, getRegions } from "../../services";
-import { getClosesRegion, getRegionByName } from "../../../util/utils";
+import { getClosesRegion, getRegionByName } from "../../util/utils";
 
 const useStyles = createUseStyles({
   root: {
@@ -45,6 +47,7 @@ const Dashboard = () => {
         longitude: coords.longitude
       });
       setRegion(closestRegion);
+      setregionName(closestRegion.name);
     });
 
     fetchData();
@@ -91,24 +94,34 @@ const Dashboard = () => {
     <div className={classes.root}>
       <Header />
       <div className={classes.content}>
-        <Sidebar
+        <SectionWithTitle
           title="Regions"
-          options={regions.map((region, index) => ({
-            key: index,
-            name: region
-          }))}
           className={classes.leftSidebar}
           onOptionClick={onRegionSelect}
-        />
-        <Sidebar
+        >
+          {regions.map((region, index) => (
+            <Card
+              key={index}
+              name={region}
+              selected={region === regionName}
+              onClick={onRegionSelect}
+            />
+          ))}
+        </SectionWithTitle>
+        <SectionWithTitle
           title="Servers"
-          options={servers.map((server, index) => ({
-            key: index,
-            name: server.cloud_name
-          }))}
           className={classes.leftSidebar}
           onOptionClick={onServerSelect}
-        />
+        >
+          {servers.map((server, index) => (
+            <ServerCard
+              key={index}
+              name={server.cloud_name}
+              selected={server.selected}
+              onClick={onServerSelect}
+            />
+          ))}
+        </SectionWithTitle>
         <div className={classes.leftSidebar}>
           <Map region={region || {}} markers={markers || []} />
         </div>
