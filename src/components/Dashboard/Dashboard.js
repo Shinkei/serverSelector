@@ -31,6 +31,7 @@ const Dashboard = () => {
   const [regionName, setregionName] = useState("");
   const [regions, setRegions] = useState([]);
   const [servers, setServers] = useState([]);
+  const [userLocation, setUserLocation] = useState(null);
 
   // in the first load, it asks the browser for the user location
   // and get the closes region that are fetches from the API
@@ -45,6 +46,12 @@ const Dashboard = () => {
       const closestRegion = getClosesRegion({
         latitude: coords.latitude,
         longitude: coords.longitude
+      });
+      setUserLocation({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+        name: "Your Location",
+        isUser: true
       });
       setRegion(closestRegion);
       setregionName(closestRegion.name);
@@ -90,9 +97,13 @@ const Dashboard = () => {
     selected: server.selected || false
   }));
 
+  if (userLocation) {
+    markers.push(userLocation);
+  }
+
   return (
     <div className={classes.root}>
-      <Header />
+      <Header region={regionName} />
       <div className={classes.content}>
         <SectionWithTitle
           title="Regions"

@@ -48,6 +48,11 @@ const Map = ({ markers, region }) => {
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000&chf=a,s,ee00FFFF",
     iconSize: [21, 34]
   });
+  const userIcon = new Icon({
+    iconUrl:
+      "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|F38361&chf=a,s,ee00FFFF",
+    iconSize: [25, 38]
+  });
 
   return (
     <MapContainer
@@ -66,7 +71,13 @@ const Map = ({ markers, region }) => {
             <Marker
               key={index}
               position={[mark.latitude, mark.longitude]}
-              icon={mark.selected ? selectedIcon : normalIcon}
+              icon={
+                mark.isUser
+                  ? userIcon
+                  : mark.selected
+                  ? selectedIcon
+                  : normalIcon
+              }
             >
               <Popup>{mark.name}</Popup>
             </Marker>
