@@ -1,4 +1,4 @@
-const baseUrl = process.env.API_BASE_URL
+const baseUrl = process.env.API_BASE_URL;
 
 /**
  * Service that fetch the API and get all the available regions
@@ -7,18 +7,17 @@ const baseUrl = process.env.API_BASE_URL
 const getRegions = async () => {
   let regions = await fetch(`${baseUrl}getRegions`);
   regions = await regions.json();
-  return regions
-}
+  return regions;
+};
 
 /**
  * Service that fetch the servers by region from the API
  * @param {string} server - server name, '' to fetch all
  */
-const getServers = async (server = '') => {
+const getServers = async (server = "") => {
   let servers = await fetch(`${baseUrl}getServers/${server}`);
   servers = await servers.json();
-  return servers
-}
+  return servers;
+};
 
-
-export {getRegions, getServers}
+export { getRegions, getServers };

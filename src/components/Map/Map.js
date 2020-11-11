@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
 import { createUseStyles } from "react-jss";
-import {Icon} from 'leaflet'
+import { Icon } from "leaflet";
 
 const useStyles = createUseStyles({
   root: {
@@ -15,10 +15,14 @@ const useStyles = createUseStyles({
  */
 const RegionSelector = ({ coordinates }) => {
   const map = useMap();
-  map.flyTo(
-    { lat: coordinates.lat || 0, lng: coordinates.lng || 0 },
-    coordinates.zoom || 1
-  );
+
+  useEffect(() => {
+    map.flyTo(
+      { lat: coordinates.lat || 0, lng: coordinates.lng || 0 },
+      coordinates.zoom || 1
+    );
+  }, [coordinates]);
+
   return null;
 };
 
@@ -35,13 +39,15 @@ const Map = ({ markers, region }) => {
   }, [region]);
 
   const normalIcon = new Icon({
-    iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF',
+    iconUrl:
+      "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF",
     iconSize: [21, 34]
-  })
+  });
   const selectedIcon = new Icon({
-    iconUrl: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000&chf=a,s,ee00FFFF',
+    iconUrl:
+      "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ff0000&chf=a,s,ee00FFFF",
     iconSize: [21, 34]
-  })
+  });
 
   return (
     <MapContainer
@@ -57,7 +63,11 @@ const Map = ({ markers, region }) => {
       {Array.isArray(markers) &&
         markers.map((mark, index) => {
           return (
-            <Marker key={index} position={[mark.latitude, mark.longitude]} icon={mark.selected ? selectedIcon : normalIcon}>
+            <Marker
+              key={index}
+              position={[mark.latitude, mark.longitude]}
+              icon={mark.selected ? selectedIcon : normalIcon}
+            >
               <Popup>{mark.name}</Popup>
             </Marker>
           );
