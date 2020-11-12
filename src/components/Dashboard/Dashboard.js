@@ -6,7 +6,7 @@ import Map from "../Map";
 import Card from "../Card";
 import ServerCard from "../ServerCard";
 import { getServers, getRegions } from "../../services";
-import { getClosesRegion, getRegionByName } from "../../util/utils";
+import { getClosestRegion, getRegionByName } from "../../utils";
 
 const useStyles = createUseStyles({
   root: {
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
     navigator.geolocation.getCurrentPosition(location => {
       const { coords } = location;
-      const closestRegion = getClosesRegion({
+      const closestRegion = getClosestRegion({
         latitude: coords.latitude,
         longitude: coords.longitude
       });

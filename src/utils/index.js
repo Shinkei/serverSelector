@@ -1,11 +1,10 @@
-import React from "react";
-
 /**
  * Calcilates the distance between 2 geo points
  * @param {number} lat1 - latitude of point 1
  * @param {number} lng1 - longitude of points 1
  * @param {number} lat2 - latitude of point 2
  * @param {number} lng2 - longitude of point 2
+ * Taken from stackoverflow
  */
 const distanceBetweenPoitns = (lat1, lng1, lat2, lng2) => {
   var p = Math.PI / 180;
@@ -76,7 +75,10 @@ const REGION_COORDINATES = [
  * Calculate which region is the closest to the user location
  * @param {Object} userLocation - user latitude and longitude
  */
-const getClosesRegion = userLocation => {
+const getClosestRegion = userLocation => {
+  if (!userLocation || !userLocation.latitude || !userLocation.longitude) {
+    return null
+  }
   const regionWithDistances = REGION_COORDINATES.map(region => {
     const distance = distanceBetweenPoitns(
       userLocation.latitude,
@@ -103,4 +105,4 @@ const getRegionByName = name => {
   return REGION_COORDINATES.find(region => region.name === name);
 };
 
-export { getClosesRegion, getRegionByName };
+export { getClosestRegion, getRegionByName };
